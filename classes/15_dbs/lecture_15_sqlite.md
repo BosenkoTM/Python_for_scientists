@@ -1,18 +1,19 @@
 # SQLite3 Databases
 
-There are a lot of different kinds of databases: SQL, MySQL, Postgres, Mongo, etc. And each different type of database has it's own Python library. Today we are going to discuss`sqlite3` because it comes standard with Python. It is particularly well suited for smaller databases. If you're interested, you can look [here](https://wiki.python.org/moin/DatabaseInterfaces) for a listing of the most popular database interfaces in Python.
+Существует множество различных типов баз данных: SQL, MySQL, Postgres, Mongo и т. д. И у каждого типа базы данных есть своя собственная библиотека Python. Сегодня мы обсудим `sqlite3`, поскольку она входит в стандартную комплектацию Python. Она особенно хорошо подходит для небольших баз данных. Если вам интересно,  можете посмотреть [здесь](https://wiki.python.org/moin/DatabaseInterfaces) список самых популярных интерфейсов баз данных в Python.
 
-Most databases are [servers](https://en.wikipedia.org/wiki/Server_%28computing%29) or [services](https://en.wikipedia.org/wiki/Windows_service) that are run on your computer. But one of the major features of `sqlite3` is that there is no server/service, the entire database is held inside one lightweight file. This is particularly handy for smaller databases and for databases you want to package with an application.
+Большинство баз данных — это [серверы](https://en.wikipedia.org/wiki/Server_%28computing%29) или [сервисы](https://en.wikipedia.org/wiki/Windows_service), которые работают на вашем компьютере. Но одной из главных особенностей `sqlite3` является то, что в ней нет сервера/сервиса, вся база данных хранится внутри одного легковесного файла. Это особенно удобно для небольших баз данных и для баз данных, которые вы хотите упаковать с приложением.
 
-## Creating and Connecting to Databases
 
-There are many books and entire courses covering the topic of databases. It is very important to understand that this is just a light introduction. The purpose of this lecture is not to teach database theory, it is only to explain how to use a single Python database library.
+## Создание и подключение к базам данных
 
-SQLite is a [relational database](https://en.wikipedia.org/wiki/Relational_database). Broadly speaking, that means the data is arranged into tables by rows (records) and columns (attributes).
+Цель этой лекции — не обучение теории баз данных, а только объяснение того, как использовать одну библиотеку баз данных Python.
 
-![secret agent database model](../../resources/secret_agent_db.png)
+SQLite — это [реляционная база данных](https://en.wikipedia.org/wiki/Relational_database). В широком смысле это означает, что данные организованы в таблицы по строкам (записям) и столбцам (атрибутам).
 
-In SQLite, we will use the same command to open an existing database that we would to create a new database:
+![модель базы данных секретного агента](../../resources/secret_agent_db.png)
+
+В SQLite мы будем использовать ту же команду для открытия существующей базы данных, что и для создания новой базы данных:
 
     import sqlite3
     con = sqlite3.connect('secret_agents.db')
@@ -344,4 +345,4 @@ The query would return:
 
     con.close()
 
-![XKCD Query Comic](https://imgs.xkcd.com/comics/query.png)
+
