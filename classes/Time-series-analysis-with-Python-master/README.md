@@ -196,7 +196,7 @@ https://archive.ics.uci.edu/ml/datasets/Parking+Birmingham
 
 ================================================================================
 
-## 8. Индексирование с данными временных рядов
+## 8. Индексирование временных рядов
 
 При работе с данными временных рядов в Python всегда необходимо устанавливать даты в качестве индекса. Поэтому определим столбец `Date` в качестве индекса фрейма данных.
 
@@ -208,7 +208,7 @@ https://archive.ics.uci.edu/ml/datasets/Parking+Birmingham
 
 ================================================================================
 
-## 9. Повторная выборка данных временных рядов
+## 9. Повторная выборка временных рядов
 
 Если более внимательно рассмотреть данные, увидим, что существуют разные временные промежутки в течение одного дня. С этим типом данных может быть сложно работать. Поэтому  преобразуем этот набор данных в более удобный.
 
@@ -226,56 +226,42 @@ https://archive.ics.uci.edu/ml/datasets/Parking+Birmingham
 ================================================================================
 
 
-## 10. Handling missing values in time series data
+## 10. Обработка пропущенных значений временного ряда
 
-
-Now, I will check for missing values in the time series data. The following command will help me to do that.
-
+Проверим пустые значения в данных временного ряда. 
 
 `y.isnull().sum()`
 
 
-The above command shows that there are 4 days with missing values in the time series.
+Приведенная выше команда показывает, что в ряду есть 4 дня с пропущенными значениями.
 
-
-I will fill in the missing values using the pandas `fillna()` command. I will use the `method=bfill` argument to fill in the missing values. It will fill in the missing values with the values in the forward index.
-
+Заполним пропущенные значения с помощью команды pandas `fillna()`. Используем аргумент `method=bfill` для заполнения пропущенных значений.
 
 `y.fillna(method='bfill', inplace=True)`
 
-
-Now, I will again check for missing values in the time series.
-
+Проверяем наличие пропущенных значений во временном ряду.
 
 `y.isnull().sum()`
 
-
-The above command shows that there are no missing values in the time series.
-
+Приведенная выше команда показывает, что временной ряд не содержит пропущенных значений.
 
 ================================================================================
 
 
-## 11. Visualizing the time series data
+## 11. Визуализация данных временного ряда
 
+Визуализация данных временного ряда является важным шагом в анализе временных рядов. Она поможет нам визуализировать несколько важных вещей,
+таких как:-
 
-Visualizing the time series data is an important step in time series analysis. It will help us to visualize several important things 
-as follows:-
+-**сезонность**(**seasonality**) — отображают ли данные временного ряда сезонность или периодическую закономерность?
 
+-**тренд**(**trend**) — отображают ли данные временного ряда постоянный восходящий или нисходящий наклон?
 
--**seasonality** - does the time series data display seasonality or periodic pattern?
+-**шум**(**noise**) — есть ли какие-либо выбросы или пропущенные значения, которые не соответствуют данным временного ряда?
 
+Визуализация помогает ответить на эти вопросы.
 
--**trend** - does the time series data display a consistent upwards or downwards slope?
-
-
--**noise** - are there any outliers or missing values that are not consistent with the time series data?
-
-
-The visualization helps to answer these questions.
-
-
-Visualize the time series data
+Визуализируйте данные временного ряда
 
 
 `y.plot(figsize=(15, 6))`
@@ -284,8 +270,8 @@ Visualize the time series data
 `plt.show()`
 
 
-The plot reveals some interesting pattern in the time series. It has a seasonality pattern but no increasing or decreasing trend. 
-The pattern reveals that the `Occupancy` has increased in December month. May be it is due to Christmas celebrations in December.
+График показывает интересную закономерность временного ряда. Она имеет сезонный характер, но не имеет тенденции к росту или спаду.
+Закономерность показывает, что «Занятость» увеличилась в декабре. Возможно, это связано с празднованием Рождества в декабре.
 
 
 ================================================================================
@@ -294,13 +280,13 @@ The pattern reveals that the `Occupancy` has increased in December month. May be
 ## 12. Seasonal decomposition with time series data
 
 
-There is another method to visualize the time series data. This method is called **time-series decomposition**. It allows us to decompose the time series into three distinct components - trend, seasonality and noise.
+Сезонная декомпозиция временных рядов
 
+Есть еще один метод визуализации данных временных рядов. Этот метод называется **декомпозицией временных рядов**. Он позволяет разложить временные ряды на три отдельных компонента — тренд, сезонность и шум.
 
-Python provides a `statsmodels` module which provides tools and techniques for statistical analysis and modeling. This `statsmodels` module provides a `seasonal_decompose` function to perform seasonal decomposition.
+Python предоставляет модуль `statsmodels`, который предоставляет инструменты и методы для статистического анализа и моделирования. Этот модуль `statsmodels` предоставляет функцию `seasonal_decompose` для выполнения сезонной декомпозиции.
 
-
-Seasonal decomposition returns a figure of relatively small size. So the first two lines of code chunk ensures that the output figure is large enough for us to visualize. We can perform seasonal decomposition in Python with the following lines of code:-
+Сезонная декомпозиция возвращает число относительно небольшого размера. Поэтому первые две строки фрагмента кода гарантируют, что выходное число будет достаточно большим для визуализации. Выполнить сезонную декомпозицию в Python с помощью следующих строк кода:-
 
 
 `from pylab import rcParams`
@@ -318,42 +304,32 @@ Seasonal decomposition returns a figure of relatively small size. So the first t
 `plt.show()`
 
 
-Time series decomposition makes it easy to visualize the data in clear manner. It helps us to identify variation in the time series. 
-The above plot shows the upwards trend in time series. It can be used to understand the structure of the time series. The time series decomposition is important because many forecasting methods are built upon this concept of structured decomposition to produce forecasts.
+Разложение временных рядов позволяет легко визуализировать данные в понятной форме. Это помогает нам идентифицировать вариации во временных рядах.
+Приведенный выше график показывает восходящую тенденцию во временных рядах. Его можно использовать для понимания структуры временных рядов. Разложение временных рядов важно, поскольку многие методы прогнозирования построены на этой концепции структурированного разложения для создания прогнозов.
 
 
 ================================================================================
 
 
-## 13. The ARIMA Time Series Model
+## 13. Модель временных рядов ARIMA
 
+Один из наиболее распространенных методов, используемых в прогнозировании временных рядов, известен как **модель ARIMA**. ARIMA означает **Авторегрессивное интегрированное скользящее среднее**. Это обобщение модели авторегрессивного скользящего среднего (ARMA). Эти модели подгоняются под данные временных рядов для лучшего понимания данных или для прогнозирования будущих значений в ряде, называемых **прогнозированием**.
 
-One of the most common methods used in time series forecasting is known as the **ARIMA model**. ARIMA stands for **AutoRegressive Integrated Moving Average**. It is a generalization of an AutoRegressive Moving Average (ARMA) model. These models are fitted to time series data to better understand the data or to predict future points in the series called **forecasting**. 
+Часть AR в ARIMA указывает, что интересующая нас переменная, регрессирует на основе предыдущих значений. Часть MA указывает, что ошибка регрессии на самом деле является линейной комбинацией членов ошибки. I (от «интегрированный») указывает, что значения данных были заменены разницей между их значениями и предыдущими значениями (и этот процесс дифференцирования мог быть выполнен более одного раза). Цель этих функций — сделать так, чтобы модель максимально хорошо соответствовала данным.
 
+Существует три различных целых числа (p, d, q), которые используются для параметризации моделей ARIMA. Итак, модели ARIMA обозначаются ARIMA(p, d, q). Эти три параметра учитывают **сезонность**, **тренд** и **шум** в наборах данных временных рядов.
 
-The AR part of ARIMA indicates that the evolving variable of interest is regressed on prior values. The MA part indicates that the regression error is actually a linear combination of error terms. The I (for "integrated") indicates that the data values have been replaced with the difference between their values and the previous values (and this differencing process may have been performed more than once). The purpose of these features is to make the model fit the data as well as possible.
+- **p** — это авторегрессионная часть модели. Она позволяет включить влияние прошлых значений в текущую модель.
 
+- **d** — это интегрированная часть модели. Она включает в себя члены в модели, которые включают величину дифференциации для применения к временному ряду.
 
-There are three distinct integers (p, d, q) that are used to parametrize ARIMA models. So, ARIMA models are denoted with the notation ARIMA(p, d, q). These three parameters account for **seasonality**, **trend** and **noise** in timeseries datasets.
+- **q** — это скользящая средняя часть модели. Позволяет установить ошибку  модели как линейную комбинацию значений ошибок, наблюдаемых в предыдущие моменты времени.
 
+Несезонные модели ARIMA обычно обозначаются как `ARIMA(p,d,q)`, где параметры p, d и q — неотрицательные целые числа. `p` — это порядок (количество временных задержек) авторегрессионной модели, `d` — это степень дифференциации (количество раз, когда данные имели прошлые значения, вычитаемые), а `q` — это порядок модели скользящего среднего.
 
-- **p** is the auto-regressive part of the model. It allows us to incorporate the effect of past values into our model. 
-
-
-- **d** is the integrated part of the model. This includes terms in the model that incorporate the amount of differencing to apply to the time series. 
-
-
-- **q** is the moving average part of the model. This allows us to set the error of our model as a linear combination of the error values observed at previous time points in the past.
-
-
-Non-seasonal ARIMA models are generally denoted by `ARIMA(p,d,q)` where parameters p, d and q are non-negative integers. `p` is the order (number of time lags) of the autoregressive model, `d` is the degree of differencing (the number of times the data have had past values subtracted), and `q` is the order of the moving-average model. 
-
-
-Seasonal ARIMA models are usually denoted by `ARIMA(p,d,q)(P,D,Q)s`, where `s` refers to the number of periods in each season, and the uppercase P,D,Q refer to the autoregressive, differencing and moving average terms for the seasonal part of the ARIMA model. The term `s` refers to the periodicity of the time series.
-
+Сезонные модели ARIMA обычно обозначаются как `ARIMA(p,d,q)(P,D,Q)s`, где `s` относится к количеству периодов в каждом сезоне, а заглавные P,D,Q относятся к авторегрессионным, дифференцирующим и скользящим средним терминам для сезонной части модели ARIMA. Термин `s` относится к периодичности временного ряда.
 
 ================================================================================
-
 
 ## 14.	Parameter Selection for the ARIMA Time Series Model
 
