@@ -331,34 +331,31 @@ Python предоставляет модуль `statsmodels`, который п�
 
 ================================================================================
 
-## 14.	Parameter Selection for the ARIMA Time Series Model
+## 14.	Выбор параметров для модели временных рядов ARIMA
 
+Теперь проведем подгонку временных рядов с помощью сезонной модели ARIMA. Требуется найти оптимальные значения параметров для модели временных рядов `ARIMA(p,d,q)(P,D,Q)s`. 
 
-Now, I will fit the time series data with a seasonal ARIMA model. I have to find the optimal parameter values for our `ARIMA(p,d,q)(P,D,Q)s` time series model. The python code below will help us to find the optimal parameter values for our model. 
+Фрагмент кода будет использовать поиск по сетке для итеративного исследования различных комбинаций параметров. Для каждой комбинации параметров подгоняем новую сезонную модель ARIMA с помощью функции `SARIMAX()` из модуля statsmodels и оцениваем ее общее качество. Оптимальным набором параметров будет тот, который обеспечивает наилучшую производительность.
 
-
-The following code will use a grid search to iteratively explore different combinations of parameters. For each combination of parameters, we fit a new seasonal ARIMA model with the `SARIMAX()` function from the statsmodels module and assess its overall quality. The optimal set of parameters will be the one that yields the best performance.
-
-
-Define the p, d and q parameters to take any value between 0 and 2
+Определите параметры p, d и q, чтобы они принимали любое значение от 0 до 2
 
 
 `p = d = q = range(0, 2)`
 
 
-Generate all different combinations of p, q and q triplets
+Сгенерировать все различные комбинации триплетов p, q и q
 
 
 `pdq = list(itertools.product(p, d, q))`
 
 
-Generate all different combinations of seasonal p, q and q triplets
+Сгенерировать все различные комбинации сезонных триплетов p, q и q
 
 
 `seasonal_pdq = [(x[0], x[1], x[2], 4) for x in list(itertools.product(p, d, q))]`
 
 
-`print('Examples of parameter combinations for Seasonal ARIMA are as follows:-')`
+`print('Примеры комбинаций параметров для сезонного ARIMA приведены ниже.:-')`
 
 
 `print('SARIMAX: {} x {}'.format(pdq[1], seasonal_pdq[1]))`
@@ -373,31 +370,25 @@ Generate all different combinations of seasonal p, q and q triplets
 `print('SARIMAX: {} x {}'.format(pdq[2], seasonal_pdq[4]))`
 
 
+### Поиск по сетке или оптимизация гиперпараметров
 
-### Grid Search or Hyperparameter Optimization
+Вышеуказанные наборы триплетов параметров теперь можно использовать для автоматизации процесса обучения и оценки моделей ARIMA на
+различных комбинациях параметров. В статистике и машинном обучении этот процесс известен как **поиск по сетке (или оптимизация гиперпараметров)** для выбора модели.
 
+Статистические модели, подобранные с различными параметрами, можно ранжировать и сравнивать друг с другом на основе их значения `AIC`. Значение `AIC`, которое означает `Akaike Information Criterion`, удобно возвращается с моделями ARIMA, подобранными с помощью statsmodels. Оно измеряет, насколько хорошо модель соответствует данным, принимая во внимание общую сложность модели. Модели, которая очень хорошо соответствует данным, используя множество признаков, будет присвоена большая оценка AIC, чем модели, которая использует меньше признаков для достижения того же качества соответствия. Поэтому мы заинтересованы в поиске модели, которая дает наименьшее значение `AIC`.
 
-The above sets of triplets of parameters can now be used to automate the process of training and evaluating ARIMA models on 
-different combinations of parameters. In Statistics and Machine Learning, this process is known as **grid search (or hyperparameter optimization)** for model selection.
+Следующий фрагмент кода перебирает комбинации параметров и использует функцию `SARIMAX` из statsmodels для подгонки соответствующей сезонной модели ARIMA. Здесь аргумент order указывает параметры (p, d, q), а аргумент season_order указывает сезонный компонент (P, D, Q, S) сезонной модели ARIMA (Авторегрессионная интегрированная модель скользящего среднего с учетом сезонности). После подгонки каждой модели SARIMAX() код выводит соответствующую оценку AIC.
 
-
-The statistical models fitted with different parameters can be ranked and compared against each other based on their `AIC` value. `AIC` which stands for `Akaike Information Criterion` value is conveniently returned with ARIMA models fitted using statsmodels. It measures how well a model fits the data while taking into account the overall complexity of the model. A model that fits the data very well while using lots of features will be assigned a larger AIC score than a model that uses fewer features to achieve the same goodness-of-fit. Therefore, we are interested in finding the model that yields the lowest `AIC` value.
-
-
-The following code snippet iterates through combinations of parameters and uses the `SARIMAX` function from statsmodels to fit the corresponding Seasonal ARIMA model. Here, the order argument specifies the (p, d, q) parameters, while the seasonal_order argument specifies the (P, D, Q, S) seasonal component of the Seasonal ARIMA model. After fitting each SARIMAX()model, the code prints out its respective AIC score.
-
-
-The code output suggests that SARIMAX(1, 1, 1)x(0, 1, 1, 4) provides the lowest AIC value of 767.8663. So, we should consider this to be the optimal option out of all the models considered.
+Вывод кода предполагает, что SARIMAX(1, 1, 1)x(0, 1, 1, 4) обеспечивает наименьшее значение AIC 767,8663. Поэтому считаем это оптимальным вариантом из всех рассмотренных моделей.
 
 
 ================================================================================
 
 
-## 15.Fitting an ARIMA Time Series Model
+## 15. Подгонка модели временного ряда ARIMA
 
 
-I have identified the optimal set of parameters that produces the best fit model. Now, I will fit these optimal parameter values 
-into a new `SARIMAX` model.
+Определим оптимальный набор параметров, который создает наилучшую модель соответствия. Подгоним оптимальные значения параметров в новую модель `SARIMAX`.
 
 
 `model = sm.tsa.statespace.SARIMAX(y,`
@@ -421,12 +412,11 @@ into a new `SARIMAX` model.
 `print(results.summary().tables[1])`
 
 
-The above summary table displays significant amount of information. The coef column shows the weight or importance of each feature 
-and how each one impacts the time series. The P>|z| column shows us the significance of each feature weight.
+Приведенная выше сводная таблица отображает значительный объем информации. Столбец coef показывает вес или важность каждой функции
+и то, как каждая из них влияет на временной ряд. Столбец P>|z| показывает значимость веса каждой функции.
 
-
-Now, I will run model diagnostics to detect any unusual behaviour. It is important to run model diagnostics to ensure that none of 
-the assumptions made by the model have been violated. The `plot_diagnostics` object generates model diagnostics.
+Теперь я запущу диагностику модели, чтобы обнаружить любое необычное поведение. Важно запустить диагностику модели, чтобы убедиться, что ни одно из
+предположений, сделанных моделью, не было нарушено. Объект `plot_diagnostics` генерирует диагностику модели.
 
 
 `results.plot_diagnostics(figsize=(15, 12))`
@@ -435,39 +425,28 @@ the assumptions made by the model have been violated. The `plot_diagnostics` obj
 `plt.show()`
 
 
-We should always check that the residuals of the model are uncorrelated and normally distributed with zero-mean. If the seasonal ARIMA model does not satisfy these properties, then the model can be further improved.
+Всегда требуется проверять, что остаточные ошибки(невязка модели) модели некоррелированы и распределены нормально с нулевым средним. Если сезонная модель ARIMA не удовлетворяет этим свойствам, то модель можно улучшить.
 
+В этом случае диагностика модели предполагает, что остаточные ошибки(невязка модели) модели не распределены нормально, основываясь на следующих наблюдениях:-
 
-In this case, the model diagnostics suggests that the model residuals are not normally distributed based on the following observations:-
+- На верхнем правом графике видим, что красная линия KDE не следует за линией N(0,1). Это показывает, что Остаточные ошибки(невязка модели) не распределены нормально.
 
+- График qq в нижнем левом углу показывает, что упорядоченное распределение остатков (синие точки) следует линейному тренду выборок, взятых из стандартного нормального распределения с N(0, 1). Это весомый признак того, что Остаточные ошибки(невязка модели) не распределены нормально.
 
-- In the top right plot, we can see that the red KDE line does not follow with the N(0,1) line. This shows that the residuals are not normally distributed. 
+- Остаточные ошибки(невязка модели) с течением времени (верхний левый график) не демонстрируют никакой очевидной сезонности и кажутся белым шумом. Это подтверждается графиком автокорреляции (т. е. коррелограммы) в нижнем правом углу. Это показывает, что Остаточные ошибки(невязка модели) временного ряда имеют низкую корреляцию с запаздывающими версиями самого себя.
 
+Таким образом, можем сделать вывод, что модель не дает удовлетворительного соответствия данным временного ряда. Можно изменить некоторые параметры сезонной модели ARIMA, чтобы улучшить соответствие модели. Поиск по сетке рассматривал только ограниченный набор комбинаций параметров. Мы можем найти лучшие модели, если расширим поиск по сетке.
 
-- The qq-plot on the bottom left shows that the ordered distribution of residuals (blue dots) follows the linear trend of the samples taken from a standard normal distribution with N(0, 1). This is a strong indication that the residuals are not normally distributed.
-
-
-- The residuals over time (top left plot) don't display any obvious seasonality and appear to be white noise. This is confirmed by the autocorrelation (i.e. correlogram) plot on the bottom right. It shows that the time series residuals have low correlation with lagged versions of itself.
-
-
-
-So, we can conclude that our model does not produce a satisfactory fit to the time series data. We can change some parameters of our seasonal ARIMA model to improve the model fit. The grid search only considered a restricted set of parameter combinations. We may find better models if we widened the grid search.
-
-
-Although, the model does not produce a satisfactory fit to the data, but I will use the same model to illustrate the process of validating and producing the forecasts for demonstration purposes.
-
-
+Хотя модель не дает удовлетворительного соответствия данным, но для тестового примера будем ее использовать, чтобы проиллюстрировать процесс проверки и создания прогнозов в демонстрационных целях.
 ================================================================================
 
 
-## 16.	Producing and Visualizing the Forecasts
+## 16.	Создание и визуализация прогнозов
 
+Теперь рассмотрим, как использовать эту модель временных рядов для прогнозирования будущих значений. Атрибут `get_forecast()` объекта временных рядов
+может вычислять прогнозируемые значения на указанное количество шагов вперед.
 
-Now, I will show how to use this time series model to forecast future values. The `get_forecast()` attribute of the time series 
-object can compute forecasted values for a specified number of steps ahead.
-
-
-Get forecast 100 steps ahead in future
+Получить прогноз на 100 шагов вперед в будущем
 
 
 `pred_uc = results.get_forecast(steps=100)`
