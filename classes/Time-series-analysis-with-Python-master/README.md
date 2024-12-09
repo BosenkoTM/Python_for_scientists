@@ -134,13 +134,9 @@ https://archive.ics.uci.edu/ml/datasets/Parking+Birmingham
 
 ## 7. Исследовательский анализ данных
 
-Теперь я проведу исследовательский анализ данных.
-
-Сначала я проверю форму фрейма данных с помощью метода **shape()**.
-
+Проверим размерность датафрейма с помощью метода **shape()**.
 
 `df.shape`
-
 
 В наборе данных 35717 строк и 4 столбца.
 
@@ -149,108 +145,74 @@ https://archive.ics.uci.edu/ml/datasets/Parking+Birmingham
 
 `df.head()`
 
-
 Столбец `LastUpdated` содержит дату и время, объединенные в один столбец временной метки. Нам нужно разделить его на два отдельных столбца.
 
 Теперь я воспользуюсь методом **info()**, чтобы просмотреть кратную информацию по датафрейму.
 
-
 `df.info()`
 
+Видно, что столбец `LastUpdated` имеет тип данных object. Требуется преобразовать его в формат datatime. Можно использовать метод pandas **to_datetime()**. Он даст два столбца `Date` и `Time` с разделенными датами.
 
-We can see that the `LastUpdated` column is of object data type. We need to convert it into datatime format. We can use the pandas **to_datetime()** method. It will give us two columns `Date` and `Time` with splitted dates.
-
-
-convert the `LastUpdated` column into `datetime` format
-
+преобразуем столбец `LastUpdated` в формат `datetime`
 
 `df['LastUpdated'] = pd.to_datetime(df['LastUpdated'])`
 
-
-again view the summary of dataframe
-
+еще раз просмотрите сводку по dataframe
 
 `df.info()`
 
-
-Now, we can see that the `LastUpdated` column is of `datetime` data type. I will split this `LastUpdated` column into two separate columns of `Date` and `Time`.
-
+Теперь мы видим, что столбец `LastUpdated` имеет тип данных `datetime`. Разобьем этот столбец `LastUpdated` на два отдельных столбца `Date` и `Time`.
 
 `df['Date'] = df['LastUpdated'].dt.date`
 
-
 `df['Time'] = df['LastUpdated'].dt.time`
 
+Я подтвержу, что столбец «LastUpdated» теперь разделен на два отдельных столбца, просмотрев первые десять строк набора данных.
 
-I will confirm that the `LastUpdated` column is now split into two separate columns by viewing the first ten rows of dataset.
-
-
-
-again view the first ten rows of dataset
-
+еще раз просмотрите первые десять строк набора данных
 
 `df.head(10)`
 
-
-Now, I will remove redundant columns from the time series dataset.
+Теперь удалим лишние столбцы из набора данных временного ряда.
 
 
 `cols = ['SystemCodeNumber', 'Capacity', 'LastUpdated', 'Time']`
 
-
 `df.drop(cols, axis=1, inplace=True)`
 
-
-Now, I will check the data types of the columns.
-
+Проверить типы данных столбцов.
 
 `df.dtypes`
 
-
-We can see that the `Date` column is of `object` data type. It should be of `datetime` format. I will convert the data type of `Date` column from `object` data type to `datetime` format. Pandas `to_datetime()` method enable us to convert object data type into Python `datetime` format.
-
+Видно, что столбец `Date` имеет тип данных `object`. Он должен иметь формат `datetime`. Преобразуем тип данных столбца `Date` из типа данных `object` в формат `datetime`. Метод `to_datetime()` библиотеки Pandas позволяет  преобразовать тип данных object в формат `datetime` библиотеки Python.
 
 `df['Date']=pd.to_datetime(df['Date'])`
 
-
-again check the data type of df dataframe
-
+еще раз проверьте тип данных df dataframe
 
 `df.dtypes`
 
-
-Now, we can see that the data type of `Date` column is `datetime`.
-
+Теперь видим, что тип данных столбца `Date` — `datetime`.
 
 ================================================================================
 
+## 8. Индексирование с данными временных рядов
 
-## 8. Indexing with time-series data
-
-
-When working with time-series data in Python we should always set dates as the index. So, I will set `Date` column as the index of the dataframe.
-
+При работе с данными временных рядов в Python всегда необходимо устанавливать даты в качестве индекса. Поэтому определим столбец `Date` в качестве индекса фрейма данных.
 
 `df.set_index('Date', inplace=True)`
 
-
 `df.index`
 
-
-The `dtype=datetime[ns]` field confirms that the index is made up of `datestamp` object. The `length=35717` suggests that we have 35717 datestamps. But, the `freq=None` parameter suggests that the frequency for the datestamps is not specified.
-
+Поле `dtype=datetime[ns]` подтверждает, что индекс состоит из объекта `datestamp`. `length=35717` предполагает, что  есть 35717 меток с датой. Но параметр `freq=None` предполагает, что частота для метки даты не указана.
 
 ================================================================================
 
+## 9. Повторная выборка данных временных рядов
 
-## 9. Resampling the timeseries data
+Если более внимательно рассмотреть данные, увидим, что существуют разные временные промежутки в течение одного дня. С этим типом данных может быть сложно работать. Поэтому  преобразуем этот набор данных в более удобный.
 
-
-When we take a closer look at the timeseries data, we can see that there are different observation points at different times in a single day. This type of data can be difficult to work with. So, I transform this dataset into a more meaningful one. 
-
-
-I will use the pandas dataframe `resample()` function which is primarily used for time series data. It allows us to group the time-series into buckets (1day or 1 month), apply a function on each group (mean) and produce the resampled data.
-
+Используем функцию `resample()` из pandas dataframe, которая в основном используется для  временных рядов. Она позволяет группировать временные ряды в блоки (1 день или 1 месяц), применять функцию к каждой группе (среднее) и создавать повторно выбранные данные.
 
 `y=df['Occupancy'].resample('D').mean()`
 
@@ -258,7 +220,7 @@ I will use the pandas dataframe `resample()` function which is primarily used fo
 `y.head(10)`
 
 
-Here, the term 'D' means that we group the data in buckets by each day and compute the daily mean.
+Здесь термин `D` означает, что группируем данные в блоки по дням и вычисляем среднее значение в течении одного дня.
 
 
 ================================================================================
