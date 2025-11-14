@@ -48,6 +48,10 @@
 
 ---
 
+[Вопросы к зачету по курсу "Python для анализа данных" (2025)](https://github.com/BosenkoTM/Python_for_scientists/blob/main/examp/2025/examp_mag_bi_25.md)
+
+---
+
 ## Дополнительные материалы. Углубленное изучение Python ("Python for Scientists")
 <details>
 <summary>Нажмите, чтобы развернуть программу дополнительного курса</summary>
