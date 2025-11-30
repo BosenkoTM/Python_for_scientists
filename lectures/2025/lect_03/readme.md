@@ -251,7 +251,7 @@ plt.show()
 -   **0-1 балл:**
     -   Работа не сдана, сдана с нарушением требований (например, пустой файл, нет доступа к репозиторию) или выполнена лишь малая часть задания (например, только загрузка данных).
 
-```
+
 
 ## ❓ Ответы на вопросы
 
@@ -263,6 +263,7 @@ plt.show()
 
 **1. Загрузка сырых данных (Задание 7):**
 В этой ячейке скачивается исходный файл и сохраняется в переменную `gas_df`.
+
 ```python
 gas_url = "https://raw.githubusercontent.com/BosenkoTM/Python_for_scientists/refs/heads/main/data/US_gasoline_production.csv"
 gas_df = pd.read_csv(gas_url, parse_dates=['date'], index_col='date')
@@ -270,6 +271,7 @@ gas_df = pd.read_csv(gas_url, parse_dates=['date'], index_col='date')
 
 **2. Создание нужного датасета (Задание 9):**
 Здесь происходит ресемплинг (агрегация) данных по месяцам, в результате чего и появляется `gas_monthly`.
+
 ```python
 # 'ME' — это alias для конца месяца (Month End) в новых версиях pandas
 gas_monthly = gas_df.resample('ME').mean()
@@ -277,3 +279,4 @@ gas_monthly = gas_df.resample('ME').mean()
 
 **Решение:** Просто выполните ячейки с кодом **Задания 7** и **Задания 9**. После этого переменная `gas_monthly` будет доступна для использования.
 ```
+
