@@ -13,10 +13,10 @@
 
 ---
 
-## 1️⃣ ELECTRONICS_SHOP.DB (Вариант 1)
+## 1️⃣ ELECTRONICS_SHOP.DB 
 
 ### Описание
-База данных интернет-магазина электроники с информацией о товарах, клиентах и заказах.
+База данных [ELECTRONICS_SHOP.DB](https://github.com/BosenkoTM/Python_for_scientists/blob/main/examp/mod_examp_Python_for_scientists/dwh_db/electronics_shop.db)  интернет-магазина электроники с информацией о товарах, клиентах и заказах.
 
 ### Структура таблиц
 
@@ -97,10 +97,10 @@ WHERE p.Category = 'Смартфоны';
 
 ---
 
-## 2️⃣ BANK_LOANS.DB (Вариант 2)
+## 2️⃣ BANK_LOANS.DB 
 
 ### Описание
-База данных банка с информацией о клиентах, кредитах и платежах.
+База данных [BANK_LOANS.DB](https://github.com/BosenkoTM/Python_for_scientists/blob/main/examp/mod_examp_Python_for_scientists/dwh_db/bank_loans.db) банка с информацией о клиентах, кредитах и платежах.
 
 ### Структура таблиц
 
@@ -181,10 +181,10 @@ ORDER BY AvgScore DESC;
 
 ---
 
-## 3️⃣ RESTAURANT_DELIVERY.DB (Вариант 3)
+## 3️⃣ RESTAURANT_DELIVERY.DB 
 
 ### Описание
-База данных сети ресторанов с системой доставки.
+База данных [RESTAURANT_DELIVERY.DB](https://github.com/BosenkoTM/Python_for_scientists/blob/main/examp/mod_examp_Python_for_scientists/dwh_db/restaurant_delivery.db)  сети ресторанов с системой доставки.
 
 ### Структура таблиц
 
@@ -262,10 +262,10 @@ WHERE o.Rating > 4.0;
 
 ---
 
-## 4️⃣ HR_ANALYTICS.DB (Вариант 4)
+## 4️⃣ HR_ANALYTICS.DB
 
 ### Описание
-База данных HR-аналитики IT-компании.
+База данных [HR_ANALYTICS.DB](https://github.com/BosenkoTM/Python_for_scientists/blob/main/examp/mod_examp_Python_for_scientists/dwh_db/hr_analytics.db) HR-аналитики IT-компании.
 
 ### Структура таблиц
 
@@ -344,10 +344,10 @@ ORDER BY TurnoverRate DESC;
 
 ---
 
-## 5️⃣ MARKETPLACE.DB (Вариант 5)
+## 5️⃣ MARKETPLACE.DB 
 
 ### Описание
-База данных онлайн-маркетплейса.
+База данных [MARKETPLACE.DB](https://github.com/BosenkoTM/Python_for_scientists/blob/main/examp/mod_examp_Python_for_scientists/dwh_db/marketplace.db) онлайн-маркетплейса.
 
 ### Структура таблиц
 
